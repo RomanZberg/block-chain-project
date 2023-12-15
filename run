@@ -1,0 +1,35 @@
+#!/bin/bash
+projectName=$(basename $(pwd))
+
+function restart {
+  docker-compose down && docker-compose up -d
+}
+
+function root {
+  docker exec --workdir /app -it -u root "$projectName"-block_chain_app-1 /bin/bash
+}
+
+function showFrontendLogs() {
+  docker exec --workdir /root -it -u root "$projectName"-block_chain_app-1 sh -c "tail -f /root/frontend.log"
+}
+
+function showHardhatLogs() {
+  docker exec --workdir /root -it -u root "$projectName"-block_chain_app-1 sh -c "tail -f /root/hardhat.log"
+}
+
+inputCommand="$@"
+
+if [ "$inputCommand" == "" ]; then
+  echo "Blockchain Dev Tool v1"
+  echo "© 2023 Roman Zberg"
+  echo ""
+  echo "Commands:"
+  echo ""
+  echo " - root"
+  echo " - restart"
+  echo " - showFrontendLogs"
+  echo " - showHardhatLogs"
+  echo ""
+else
+  $inputCommand
+fi

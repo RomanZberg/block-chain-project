@@ -1,0 +1,5 @@
+#!/bin/bash
+projectName=$(basename $(pwd))
+inputCommand="$@"
+
+docker exec --workdir /app/frontend -it -u root "$projectName"-block_chain_app-1 /bin/bash -c "npm run-script ng $inputCommand"
