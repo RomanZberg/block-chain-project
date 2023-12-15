@@ -1,0 +1,73 @@
+<!-- Form Login -->
+<form *ngIf="!wallet?.address" [formGroup]="loginForm">
+  <textarea
+    *ngIf="!hasSeeds"
+    type="text"
+    class="form-control"
+    formControlName="seeds"
+    placeholder="Seeds"
+    rows="4"
+  ></textarea>
+
+  <input
+    type="password"
+    id="password"
+    class="form-control"
+    formControlName="password"
+    placeholder="Password"
+  />
+
+  <!-- Errors -->
+  <div
+    *ngIf="seeds.invalid && (seeds.dirty || seeds.touched)"
+    class="alert alert-danger"
+  >
+    <div *ngIf="seeds.errors?.['forbiddenSeeds']">Seeds are not valid.</div>
+  </div>
+
+  <div
+    *ngIf="password.invalid && (password.dirty || password.touched)"
+    class="alert alert-danger"
+  >
+    <div *ngIf="password.errors?.['required']">Password is required.</div>
+    <div *ngIf="password.errors?.['minlength']">
+      Password must be at least 4 characters long.
+    </div>
+  </div>
+
+  <!-- Normal Login -->
+  <button
+    [disabled]="!loginForm.valid"
+    class="btn"
+    type="submit"
+    (click)="sendLogin()"
+  >
+    Login
+  </button>
+  <!-- Login with Metamask -->
+  <button
+    [disabled]="!(isMetamaskEnabled$ | async)"
+    class="btn"
+    type="button"
+    (click)="loginMetamask()"
+  >
+    Connect to Metamask
+    <img class="" src="../../assets/images/metamask-icon.svg" alt="Metamask" />
+  </button>
+</form>
+
+<!-- Show balance if logged -->
+<div *ngIf="wallet?.address">
+  <h1>Hello {{ wallet?.address }}</h1>
+  <p>Your balance in ETH is: {{ wallet?.balance }}ETH</p>
+</div>
+
+<!-- Logout if it is logged with Normal Login -->
+<button
+  *ngIf="wallet?.address || hasSeeds"
+  class="btn btn--logout"
+  type="button"
+  (click)="logout()"
+>
+  Logout
+</button>
