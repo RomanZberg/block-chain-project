@@ -17,6 +17,15 @@ function showHardhatLogs() {
   docker exec --workdir /root -it -u root "$projectName"-block_chain_app-1 sh -c "tail -f /root/hardhat.log"
 }
 
+function generateAbis() {
+  docker exec --workdir /app -it -u root "$projectName"-block_chain_app-1 sh -c "solcjs contracts/ClearOriginNetwork.sol --abi --include-path 'node_modules/' --base-path '/contracts' --output-dir frontend/src/assets/abis"
+}
+
+function publishContract() {
+  docker exec --workdir /app -it -u root "$projectName"-block_chain_app-1 sh -c "npx hardhat run --network localhost scripts/deploy.js"
+  generateAbis
+}
+
 inputCommand="$@"
 
 if [ "$inputCommand" == "" ]; then
@@ -29,6 +38,8 @@ if [ "$inputCommand" == "" ]; then
   echo " - restart"
   echo " - showFrontendLogs"
   echo " - showHardhatLogs"
+  echo " - generateAbis"
+  echo " - publishContract"
   echo ""
 else
   $inputCommand
