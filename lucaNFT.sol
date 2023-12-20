@@ -15,4 +15,6 @@ contract SimpleCollectible is ERC721 {
         tokenCounter = tokenCounter + 1;
         return newItemId;
     }
+
+
 }
