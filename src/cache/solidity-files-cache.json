@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/app/contracts/ClearOriginNetwork.sol": {
-      "lastModificationDate": 1703170921428,
-      "contentHash": "416612ab77b6b9a70981c443f73bcd97",
+      "lastModificationDate": 1703171689749,
+      "contentHash": "32fb6dfd4209b524cd7e0e39ec11fc27",
       "sourceName": "contracts/ClearOriginNetwork.sol",
       "solcConfig": {
         "version": "0.8.20",

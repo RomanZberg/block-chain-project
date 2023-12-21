@@ -34,9 +34,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     }
 
 
-
-
-
     function getCompanies() public view returns (Company[] memory)
     {
         Company[] memory returnCompanies;
@@ -108,30 +105,8 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         safeTransferFrom(from, to, tokenId);
     }
 
-<<<<<<< HEAD
-=======
-    // Function to get the array of addresse
 
-    function createCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts) public {
-        companies.push(
-            Company(
-              _companyName,
-              _companyAddress,
-              _companyProducts
-            )
-        );
-    }
 
-    function getCompany(uint _index) public view returns(bytes32 companyName, address companyAddress,bytes32[] memory products ){
-        Company storage company = companies[_index];
-        return (company.companyName, company.companyAddress,company.products);
-    }
-    function getCompanies() public view returns(Company[] memory comp)
-    {
-        return companies;
-    }
-
->>>>>>> 970f0ec3087a193da97d119b81dcabe49c1fd1c3
     // The following functions are overrides required by Solidity.
     function tokenURI(uint256 tokenId) public view
     override(ERC721, ERC721URIStorage)
