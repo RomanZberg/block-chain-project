@@ -6,15 +6,18 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "solcjs": "solcjs"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.0.0",
+    "@angular/animations": "^17.0.7",
+    "@angular/cdk": "^17.0.4",
     "@angular/common": "^17.0.0",
     "@angular/compiler": "^17.0.0",
     "@angular/core": "^17.0.0",
     "@angular/forms": "^17.0.0",
+    "@angular/material": "^17.0.4",
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
@@ -28,7 +31,9 @@
     "next-tick": "^1.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "walletconnect": "^1.7.8",
     "web3": "^4.3.0",
+    "web3modal": "^1.9.12",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {

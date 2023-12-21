@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-content>
+    <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+      <h2>Add new Company</h2>
+      <p>
+        <mat-form-field>
+          <mat-label>Company Name</mat-label>
+          <input matInput formControlName="companyName" required>
+<!--          @if (companyName.invalid) {-->
+<!--          <mat-error>{{getErrorMessageCompanyName()}}</mat-error>-->
+<!--          }-->
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Wallet address</mat-label>
+          <input matInput formControlName="walletAddress" required>
+<!--          @if (walletAddress.invalid) {-->
+<!--          <mat-error>{{getErrorMessageWalletAddress()}}</mat-error>-->
+<!--          }-->
+        </mat-form-field>
+      </p>
+
+      <div class="actions">
+        <button mat-raised-button color="basic" routerLink="/admin/companies">Back</button>
+        <button mat-raised-button type="submit" color="primary">Add</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
