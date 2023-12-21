@@ -10,6 +10,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
     uint256 private _nextTokenId;
     address[] public companies;
+    // Allowed Products: {1x43483: ["Uhr", ""]
 
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
