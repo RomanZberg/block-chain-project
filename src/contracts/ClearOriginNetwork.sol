@@ -66,10 +66,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         return companies;
     }
 
-
-
-
-
     // The following functions are overrides required by Solidity.
 
     function tokenURI(uint256 tokenId)public view
