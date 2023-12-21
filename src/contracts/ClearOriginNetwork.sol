@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
-
+    uint256 private _nextTokenId;
     address[] public companies;
 
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
@@ -16,8 +16,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     }
 
     function safeMint(address to, uint256 tokenId, string memory uri)
-    public
-    onlyRole(COMPANY_ROLE)
+    public onlyRole(COMPANY_ROLE)
     {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
