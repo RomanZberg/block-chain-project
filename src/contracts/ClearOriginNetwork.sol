@@ -9,11 +9,66 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
     uint256 private _nextTokenId;
-    address[] public companies;
-    // Allowed Products: {1x43483: ["Uhr", ""]
+    struct Company {
+        address companyAddress;
+        bytes32[] products;
+    }
 
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+    }
+
+    mapping(address => Company) private companies;
+    address[] private addressList;
+
+    function createCompany(address _companyAddress) public {
+        companies[_companyAddress] = Company(_companyAddress, new bytes32[](0));
+    }
+
+    function addProducts(address _companyAddress, bytes32[] memory _products) public {
+        Company storage company = companies[_companyAddress];
+        for (uint256 i = 0; i < _products.length; i++) {
+            company.products.push(_products[i]);
+        }
+    }
+
+    function addProduct(address _companyAddress, bytes32 _product) public {
+        Company storage company = companies[_companyAddress];
+        company.products.push(_product);
+    }
+
+    function getCompanyProducts(address _companyAddress) public view returns (bytes32[] memory) {
+        return companies[_companyAddress].products;
+    }
+
+    function getCompaniesWithProduct(string memory _product) public view returns (address[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < addressList.length; i++) {
+            if (hasProduct(addressList[i], _product)) {
+                count++;
+            }
+        }
+
+        address[] memory result = new address[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < addressList.length; i++) {
+            if (hasProduct(addressList[i], _product)) {
+                result[index] = addressList[i];
+                index++;
+            }
+        }
+
+        return result;
+    }
+
+    function hasProduct(address _companyAddress, string memory _product) public view returns (bool) {
+        Company storage company = companies[_companyAddress];
+        for (uint256 i = 0; i < company.products.length; i++) {
+            if (keccak256(abi.encodePacked(company.products[i])) == keccak256(abi.encodePacked(_product))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function safeMint(address to, string memory uri) public onlyRole(COMPANY_ROLE) {
@@ -27,29 +82,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         require(ownerOf(tokenId) == from, "Token not owned by the address");
 
         safeTransferFrom(from, to, tokenId);
-    }
-
-    // Function to add a new company to the network
-    function addCompany(address _newCompany) public onlyRole(DEFAULT_ADMIN_ROLE)
-    {
-        _grantRole(COMPANY_ROLE, _newCompany);
-        companies.push(_newCompany);
-    }
-
-    // Function to add company products
-
-    // Function to get company products
-    // should anyone be able to use this function? not just admin
-    function getCompanieProducts(address) public onlyRole(DEFAULT_ADMIN_ROLE)
-    {
-        
-    }
-
-    // Function to check if company can mint product
-
-    // Function to get the array of addresses
-    function getCompanies() public onlyRole(DEFAULT_ADMIN_ROLE) view returns (address[] memory)  {
-        return companies;
     }
 
 
