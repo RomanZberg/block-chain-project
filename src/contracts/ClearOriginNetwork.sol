@@ -10,6 +10,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
     uint256 private _nextTokenId;
     struct Company {
+        bytes32 companyName;
         address companyAddress;
         bytes32[] products;
     }
@@ -21,8 +22,8 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     mapping(address => Company) private companies;
     address[] private companyAddressList;
 
-    function createCompany(address _companyAddress) public {
-        companies[_companyAddress] = Company(_companyAddress, new bytes32[](0));
+    function createCompany(bytes32 _companyName, address _companyAddress) public {
+        companies[_companyAddress] = Company(_companyName, _companyAddress, new bytes32[](0));
         companyAddressList.push(_companyAddress);
     }
 
