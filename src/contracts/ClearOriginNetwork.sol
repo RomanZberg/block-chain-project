@@ -19,11 +19,11 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     }
 
     mapping(address => Company) private companies;
-    address[] private addressList;
+    address[] private companyAddressList;
 
     function createCompany(address _companyAddress) public {
         companies[_companyAddress] = Company(_companyAddress, new bytes32[](0));
-        addressList.push(_companyAddress);
+        companyAddressList.push(_companyAddress);
     }
 
     function addProducts(address _companyAddress, bytes32[] memory _products) public {
@@ -44,17 +44,17 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
 
     function getCompaniesWithProduct(string memory _product) public view returns (address[] memory) {
         uint256 count = 0;
-        for (uint256 i = 0; i < addressList.length; i++) {
-            if (hasProduct(addressList[i], _product)) {
+        for (uint256 i = 0; i < companyAddressList.length; i++) {
+            if (hasProduct(companyAddressList[i], _product)) {
                 count++;
             }
         }
 
         address[] memory result = new address[](count);
         uint256 index = 0;
-        for (uint256 i = 0; i < addressList.length; i++) {
-            if (hasProduct(addressList[i], _product)) {
-                result[index] = addressList[i];
+        for (uint256 i = 0; i < companyAddressList.length; i++) {
+            if (hasProduct(companyAddressList[i], _product)) {
+                result[index] = companyAddressList[i];
                 index++;
             }
         }
