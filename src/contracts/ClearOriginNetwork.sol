@@ -14,6 +14,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         bytes32 companyName;
         address companyAddress;
         bytes32[] products;
+        bool isValue;
     }
 
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
@@ -24,25 +25,34 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     address[] private companyAddresses;
 
     function addCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts) public {
+        require(companies[_companyAddress].isValue == false, 'Wallet address is already assigned');
+
         companies[_companyAddress] = Company(
             _companyName,
             _companyAddress,
-            _companyProducts
+            _companyProducts,
+            true
         );
 
         companyAddresses.push(_companyAddress);
     }
 
 
-    function getCompanies() public view returns (Company[] memory)
+    function getCompanies() public view returns (bytes32[] memory, address[] memory, bytes32[][] memory)
     {
-        Company[] memory returnCompanies;
+
+        bytes32[] memory companyNamesR = new bytes32[](companyAddresses.length);
+        address[] memory companyAddressesR = new address[](companyAddresses.length);
+        bytes32[][] memory productsArrayR = new bytes32[][](companyAddresses.length);
 
         for (uint256 i = 0; i < companyAddresses.length; i++) {
-            returnCompanies[i] = companies[companyAddresses[i]];
+            Company memory company = companies[companyAddresses[i]];
+            companyNamesR[i] = company.companyName;
+            companyAddressesR[i] = company.companyAddress;
+            productsArrayR[i] = company.products;
         }
 
-        return returnCompanies;
+        return (companyNamesR, companyAddressesR, productsArrayR);
     }
 
 
@@ -52,6 +62,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
             company.products.push(_products[i]);
         }
     }
+
 
     function addProduct(address _companyAddress, bytes32 _product) public {
         Company storage company = companies[_companyAddress];
@@ -104,8 +115,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
 
         safeTransferFrom(from, to, tokenId);
     }
-
-
 
     // The following functions are overrides required by Solidity.
     function tokenURI(uint256 tokenId) public view
