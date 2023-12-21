@@ -23,6 +23,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
 
     function createCompany(address _companyAddress) public {
         companies[_companyAddress] = Company(_companyAddress, new bytes32[](0));
+        addressList.push(_companyAddress);
     }
 
     function addProducts(address _companyAddress, bytes32[] memory _products) public {
