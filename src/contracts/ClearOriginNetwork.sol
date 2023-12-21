@@ -22,7 +22,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         _setTokenURI(tokenId, uri);
     }
 
-
     // Function to transfer NFT from one address to another --> Make a delivery with products
     function transferNFT(address from, address to, uint256 tokenId) public {
         require(ownerOf(tokenId) == from, "Token not owned by the address");
@@ -37,16 +36,24 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         companies.push(_newCompany);
     }
 
+    // Function to add company products
+
+    // Function to get company products
+    // should anyone be able to use this function? not just admin
+    function getCompanieProducts(address) public onlyRole(DEFAULT_ADMIN_ROLE)
+    {
+        
+    }
+
+    // Function to check if company can mint product
+
     // Function to get the array of addresses
     function getCompanies() public onlyRole(DEFAULT_ADMIN_ROLE) view returns (address[] memory)  {
         return companies;
     }
 
 
-
-
     // The following functions are overrides required by Solidity.
-
     function tokenURI(uint256 tokenId)public view
     override(ERC721, ERC721URIStorage)
     returns (string memory)
