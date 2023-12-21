@@ -10,8 +10,6 @@ contract MyToken is ERC721, ERC721Burnable,ERC721URIStorage,AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     uint256 private _nextTokenId;
 
-    // Welche Produkte er Minten darf.
-
     constructor(address defaultAdmin) ERC721("MyToken", "MTK") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
         // _grantRole(MINTER_ROLE, defaultAdmin);
