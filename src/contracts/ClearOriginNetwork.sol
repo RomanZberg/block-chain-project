@@ -5,8 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl {
+contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl, ERC721Enumerable {
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
     uint256 private _nextTokenId;
 
@@ -17,14 +18,26 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         bool isValue;
     }
 
+    struct DeliveryItem {
+        bytes32 name;
+        uint8 numberOfItems;
+    }
+
+
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
     }
 
     mapping(address => Company) private companies;
-    address[] private companyAddresses;
 
-    function addCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts) public {
+
+    mapping(uint256 => DeliveryItem[]) private tokenIdDeliveryItemsMapping;
+
+
+    address[] private  companyAddresses;
+
+    function addCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts) public
+    {
         require(companies[_companyAddress].isValue == false, 'Wallet address is already assigned');
 
         companies[_companyAddress] = Company(
@@ -53,6 +66,24 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         }
 
         return (companyNamesR, companyAddressesR, productsArrayR);
+    }
+
+
+    function getDelivery(uint256 tokenId) public view returns (bytes32[] memory, uint8[] memory)
+    {
+
+        DeliveryItem[] memory deliveryItems = tokenIdDeliveryItemsMapping[tokenId];
+
+        bytes32[] memory deliveryProductsR = new bytes32[](deliveryItems.length);
+        uint8[] memory numberOfItemsR = new uint8[](deliveryItems.length);
+
+        for (uint256 i = 0; i < deliveryItems.length; i++) {
+            DeliveryItem memory deliveryItem = deliveryItems[i];
+            deliveryProductsR[i] = deliveryItem.name;
+            numberOfItemsR[i] = deliveryItem.numberOfItems;
+        }
+
+        return (deliveryProductsR, numberOfItemsR);
     }
 
 
@@ -103,13 +134,19 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         return false;
     }
 
-    function safeMint(address to, string memory uri) public onlyRole(COMPANY_ROLE) {
+    function safeMint(bytes32[] memory _deliveryProducts, uint8[] memory numberOfItems) public {
         uint256 tokenId = _nextTokenId++;
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+
+        _safeMint(msg.sender, tokenId);
+
+        for (uint256 i = 0; i < _deliveryProducts.length; i++) {
+            tokenIdDeliveryItemsMapping[tokenId].push(DeliveryItem(_deliveryProducts[i], numberOfItems[i]));
+        }
+
+        //        _setTokenURI(tokenId, uri);
     }
 
-    // Function to transfer NFT from one address to another --> Make a delivery with products
+// Function to transfer NFT from one address to another --> Make a delivery with products
     function transferNFT(address from, address to, uint256 tokenId) public {
         require(ownerOf(tokenId) == from, "Token not owned by the address");
 
@@ -117,7 +154,25 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     }
 
     // The following functions are overrides required by Solidity.
-    function tokenURI(uint256 tokenId) public view
+
+    function _update(address to, uint256 tokenId, address auth)
+    internal
+    override(ERC721, ERC721Enumerable)
+    returns (address)
+    {
+        return super._update(to, tokenId, auth);
+    }
+
+    function _increaseBalance(address account, uint128 value)
+    internal
+    override(ERC721, ERC721Enumerable)
+    {
+        super._increaseBalance(account, value);
+    }
+
+    function tokenURI(uint256 tokenId)
+    public
+    view
     override(ERC721, ERC721URIStorage)
     returns (string memory)
     {
@@ -127,7 +182,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
     function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC721, ERC721URIStorage, AccessControl)
+    override(ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl)
     returns (bool)
     {
         return super.supportsInterface(interfaceId);
