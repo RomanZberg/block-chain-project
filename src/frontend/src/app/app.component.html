@@ -3,9 +3,9 @@
 
   <div class="navigation">
 
-    <a routerLink="delivery-tracker">Delivery Tracker</a>
 
     <ng-container *ngIf="loggedIn">
+      <a routerLink="delivery-tracker">Delivery Tracker</a>
       <a routerLink="create-delivery" *ngIf="isCompany">Create Delivery</a>
 
       <a routerLink="admin/companies" *ngIf="isAdmin">Manage Companies</a>
