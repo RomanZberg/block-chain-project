@@ -23,9 +23,12 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         uint8 numberOfItems;
     }
 
+    address[] private admins;
+
 
     constructor(address defaultAdmin) ERC721("ClearOriginNetwork", "CON") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        admins.push(defaultAdmin);
     }
 
     mapping(address => Company) private companies;
@@ -36,7 +39,13 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
 
     address[] private  companyAddresses;
 
-    function addCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts) public
+
+    function getAdmins() public view returns (address[] memory){
+        return admins;
+    }
+
+    function addCompany(bytes32 _companyName, address _companyAddress, bytes32[] memory _companyProducts)
+    public onlyRole(DEFAULT_ADMIN_ROLE)
     {
         require(companies[_companyAddress].isValue == false, 'Wallet address is already assigned');
 
@@ -46,6 +55,8 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
             _companyProducts,
             true
         );
+
+        _grantRole(COMPANY_ROLE, _companyAddress);
 
         companyAddresses.push(_companyAddress);
     }
@@ -141,7 +152,7 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         return false;
     }
 
-    function safeMint(bytes32[] memory _deliveryProducts, uint8[] memory numberOfItems) public {
+    function safeMint(bytes32[] memory _deliveryProducts, uint8[] memory numberOfItems) public onlyRole(COMPANY_ROLE) {
         uint256 tokenId = _nextTokenId++;
 
         _safeMint(msg.sender, tokenId);
@@ -149,8 +160,6 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         for (uint256 i = 0; i < _deliveryProducts.length; i++) {
             tokenIdDeliveryItemsMapping[tokenId].push(DeliveryItem(_deliveryProducts[i], numberOfItems[i]));
         }
-
-        //        _setTokenURI(tokenId, uri);
     }
 
 // Function to transfer NFT from one address to another --> Make a delivery with products
