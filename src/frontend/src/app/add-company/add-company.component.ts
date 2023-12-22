@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from "@angular/material/card";
 import {ClearOriginService} from "../clear-origin.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add-company',
@@ -31,7 +32,12 @@ export class AddCompanyComponent {
   });
 
 
-  constructor(private formBuilder: FormBuilder, private clearOriginService: ClearOriginService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private clearOriginService: ClearOriginService,
+    private _snackBar: MatSnackBar,
+    private router: Router
+  ) {
 
     console.log(formBuilder)
 
@@ -41,10 +47,13 @@ export class AddCompanyComponent {
   onSubmit() {
     if (this.companyForm.valid) {
       console.log(this.companyForm.value)
-      this.clearOriginService.createOrganization(this.companyForm.value.companyName, this.companyForm.value.walletAddress, 'tot')
+      this.clearOriginService.createOrganization(this.companyForm.value.companyName, this.companyForm.value.walletAddress)
+        .then(x => {
+          this._snackBar.open("Company added successfully", "Ok");
+          this.router.navigateByUrl('/admin/companies')
+        })
     }
   }
-
 
 
 }

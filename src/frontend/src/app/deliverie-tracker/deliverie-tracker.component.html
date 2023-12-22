@@ -1,0 +1,15 @@
+<form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field>
+      <mat-label>Delivery ID</mat-label>
+      <input matInput formControlName="deliveryId" required>
+      <!--          @if (companyName.invalid) {-->
+      <!--          <mat-error>{{getErrorMessageCompanyName()}}</mat-error>-->
+      <!--          }-->
+
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button type="submit" color="primary">Show Origin</button>
+</form>
+

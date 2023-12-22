@@ -1,11 +1,11 @@
-.navigation{
+.navigation {
   flex-grow: 1;
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 10px;
+  gap: 25px;
 
-  a{
+  a {
     text-decoration: none;
     font-weight: normal;
     color: black;
@@ -13,9 +13,27 @@
 }
 
 
-.content{
+.content {
   display: flex;
   justify-content: center;
 
   padding-top: 25px;
+
+  & > * {
+    flex-grow: 1;
+  }
+
+  router-outlet {
+    flex-grow: 0;
+  }
+}
+
+footer{
+  padding: 25px;
+  text-align: center;
+
+  span{
+    color: gray;
+    margin-right: 10px;
+  }
 }

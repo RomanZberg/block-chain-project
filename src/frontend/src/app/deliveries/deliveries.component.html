@@ -1,0 +1,20 @@
+<ng-container *ngIf="deliveries.length > 0">
+  <mat-expansion-panel *ngFor="let delivery of deliveries;" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Delivery number: {{delivery.deliveryId}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{delivery.products.length}} Products
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <h2>Products:</h2>
+    <div *ngFor="let product of delivery.products;">
+      <b>{{product.itemName}}</b>:  {{product.numberOfItems}} Items
+    </div>
+  </mat-expansion-panel>
+</ng-container>
+<ng-container *ngIf="deliveries.length == 0">
+  There are no deliveries assigned to your wallet.
+</ng-container>

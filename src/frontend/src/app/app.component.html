@@ -1,20 +1,20 @@
-<!--<nav>-->
-<!--  <a routerLink="create-delivery">Create Delivery</a>-->
-<!--  <a routerLink="show-items">Show Items</a>-->
-<!--</nav>-->
-
 <mat-toolbar>
   <span>OpenOrigin</span>
 
   <div class="navigation">
+
+    <ng-container *ngIf="true">
+      <a routerLink="delivery-tracker">Delivery Tracker</a>
+    </ng-container>
+
     <ng-container *ngIf="true">
       <a routerLink="create-delivery">Create Delivery</a>
     </ng-container>
 
     <ng-container *ngIf="true">
-      <a routerLink="admin/companies">Companies</a>
+      <a routerLink="admin/companies">Manage Companies</a>
     </ng-container>
-    <a routerLink="show-items">Items</a>
+    <a routerLink="deliveries">My Deliveries</a>
 
     <mat-menu #appMenu="matMenu">
       <button mat-menu-item>Settings</button>
@@ -27,18 +27,15 @@
   </div>
 </mat-toolbar>
 
-
-<!--<button (click)="callCreateCompany()">call function</button>-->
-<!--hallo-->
-
-
-<!--<button (click)="getAdmins()">get admins</button>-->
-
-<!--<button (click)="setServiceValue()">set service value </button>-->
-
 <div class="content">
   <router-outlet></router-outlet>
 </div>
+
+
+<footer>
+  <span>Smart contract: {{contractAddress}}</span>
+  <button (click)="copyContractAddressToClipBoard()">Copy</button>
+</footer>
 
 
 

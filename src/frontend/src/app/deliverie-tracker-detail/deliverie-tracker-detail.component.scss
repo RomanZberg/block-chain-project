@@ -1,0 +1,28 @@
+.companyName{
+  font-size: 20px;
+}
+
+h2{
+  text-align: center;
+}
+
+
+.history{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+
+  &> div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
+  & > div > div{
+    display: flex;
+    justify-content: center;
+  }
+}

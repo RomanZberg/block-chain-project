@@ -6,6 +6,8 @@ import {NgForOf} from "@angular/common";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-delivery',
@@ -32,19 +34,18 @@ export class CreateDeliveryComponent {
     items: this.formBuilder.array([
       this.formBuilder.group({
         itemName: ['', Validators.required],
-        numberOfElements: ['', Validators.required]
+        numberOfItems: ['', Validators.required]
       })
     ])
   });
 
   constructor(
     private formBuilder: FormBuilder,
-    private clearOriginService: ClearOriginService
+    private clearOriginService: ClearOriginService,
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) {
   }
-
-
-
 
 
   addItem() {
@@ -57,18 +58,20 @@ export class CreateDeliveryComponent {
     this.items.push(
       new FormGroup({
         itemName: itemNameFormControl,
-        numberOfElements: numberOfElementsFormControl
+        numberOfItems: numberOfElementsFormControl
       })
     );
   }
 
 
-  onSubmit(){
+  onSubmit() {
     console.log('submit')
-    if (this.deliveryForm.valid){
+    if (this.deliveryForm.valid) {
       console.log(this.deliveryForm.value)
 
-      this.clearOriginService.createDelivery('0xdD2FD4581271e230360230F9337D5c0430Bf44C0', 'haha fick fuck').then(x=>{
+      this.clearOriginService.createDelivery(this.deliveryForm.value.items).then(x => {
+        this._snackBar.open("Delivery successfully created", "Ok");
+        this.router.navigateByUrl('/deliveries')
         console.log(x);
       })
     }

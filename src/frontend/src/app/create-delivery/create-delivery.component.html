@@ -15,15 +15,11 @@
 
             <mat-form-field>
               <mat-label>Number of Elements</mat-label>
-              <input matInput formControlName="numberOfElements" required>
+              <input matInput formControlName="numberOfItems" type="number" step="1" min="0" required>
             </mat-form-field>
           </div>
-
-
-
-
-
         </div>
+
       </div>
       <div>
         <button mat-raised-button (click)="addItem()" color="basic" type="button">Add Item</button>
