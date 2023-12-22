@@ -1,4 +1,16 @@
-<h2>Delivery {{deliveryId}}</h2>
+<h2>Delivery ID: {{deliveryId}}</h2>
+
+<ng-container *ngIf="delivery">
+  <div class="products">
+    <div class="product" *ngFor="let product of delivery.products;">
+      <b>{{product.itemName}}</b>{{product.numberOfItems}} Items
+    </div>
+  </div>
+</ng-container>
+
+
+
+
 <div class="history">
 
   <div *ngFor="let item of history; last as last">

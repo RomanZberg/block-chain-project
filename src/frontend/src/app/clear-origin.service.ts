@@ -23,15 +23,15 @@ export class ClearOriginService {
 
   private web3js: any;
   private provider: any;
-  private accounts: any;
+  public accounts: any;
   web3Modal
 
   uDonate: any;
 
   private testVariable = 'default';
 
-  private accountStatusSource = new Subject<any>();
-  accountStatus$ = this.accountStatusSource.asObservable();
+  public accountStatusSource = new Subject<any>();
+
 
   constructor(
     private httpClient: HttpClient
@@ -50,6 +50,11 @@ export class ClearOriginService {
       }
     };
 
+
+    this.accountStatusSource.subscribe(x => {
+      console.log('new acound status', x)
+    })
+
     this.web3Modal = new Web3Modal({
       network: "mainnet", // optional
       cacheProvider: true, // optional
@@ -63,9 +68,8 @@ export class ClearOriginService {
       }
     });
 
-
+    console.log('test lololo');
   }
-
 
   async connectAccount() {
     this.web3Modal.clearCachedProvider();
@@ -218,22 +222,7 @@ export class ClearOriginService {
 
 
     const create = await this.uDonate
-      .methods.getAdmins().send({from: this.accounts[0]}).on('transactionHash', function (hash: any) {
-        // Transaction hash is available here
-        console.log('Transaction Hash:', hash);
-      })
-      .on('receipt', function (receipt: any) {
-        // Transaction receipt is available here
-        console.log('Transaction Receipt:', receipt);
-
-        // You can fetch the result from the receipt or make another call to get the result
-        const result = receipt.events;
-        console.log('Result:', result);
-      })
-      .on('error', function (error: any) {
-        // Handle error here
-        console.error('Error:', error);
-      });
+      .methods.getAdmins().call();
 
 
     return create;
@@ -245,6 +234,28 @@ export class ClearOriginService {
 
   public get testVar() {
     return this.testVariable;
+  }
+
+  public async getDelivery(tokenId: number) {
+
+    this.provider = await this.web3Modal.connect(); // set provider
+    this.web3js = new Web3(this.provider); // create web3 instance
+    this.accounts = await this.web3js.eth.getAccounts();
+
+    const response = await this.uDonate.methods.getDelivery(tokenId).call()
+    const products: Product[] = [];
+
+    response[0].forEach((productName: any, index: any) => {
+      products.push({
+        itemName: Web3.utils.hexToAscii(productName),
+        numberOfItems: Number(response[1][index])
+      })
+    })
+
+    return {
+      deliveryId: Number(tokenId),
+      products: products
+    }
   }
 
 

@@ -1,3 +1,13 @@
+.logo {
+  cursor: pointer;
+}
+
+
+mat-toolbar {
+  height: 100px;
+}
+
+
 .navigation {
   flex-grow: 1;
   display: flex;
@@ -28,11 +38,20 @@
   }
 }
 
-footer{
+
+.loginButton {
+  margin-left: 25px;
+}
+
+#account-selector {
+  margin-top: 15px;
+}
+
+footer {
   padding: 25px;
   text-align: center;
 
-  span{
+  span {
     color: gray;
     margin-right: 10px;
   }

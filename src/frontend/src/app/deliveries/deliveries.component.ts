@@ -21,7 +21,7 @@ export class DeliveriesComponent {
 
 
   public constructor(private clearOriginService: ClearOriginService) {
-    this.clearOriginService.getDeliverys("0xdD2FD4581271e230360230F9337D5c0430Bf44C0").then(x => {
+    this.clearOriginService.getDeliverys(this.clearOriginService.accounts[0]).then(x => {
       this.deliveries = x;
     })
   }

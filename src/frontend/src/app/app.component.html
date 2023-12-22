@@ -1,32 +1,34 @@
 <mat-toolbar>
-  <span>OpenOrigin</span>
+  <span class="logo" routerLink="/">ClearOrigin</span>
 
   <div class="navigation">
 
-    <ng-container *ngIf="true">
-      <a routerLink="delivery-tracker">Delivery Tracker</a>
+    <a routerLink="delivery-tracker">Delivery Tracker</a>
+
+    <ng-container *ngIf="loggedIn">
+      <a routerLink="create-delivery" *ngIf="isCompany">Create Delivery</a>
+
+      <a routerLink="admin/companies" *ngIf="isAdmin">Manage Companies</a>
+
+      <a routerLink="deliveries">My Deliveries</a>
     </ng-container>
 
-    <ng-container *ngIf="true">
-      <a routerLink="create-delivery">Create Delivery</a>
-    </ng-container>
+    <!--    <mat-menu #appMenu="matMenu">-->
+    <!--      <button mat-menu-item>Settings</button>-->
+    <!--      <button mat-menu-item>Help</button>-->
+    <!--    </mat-menu>-->
 
-    <ng-container *ngIf="true">
-      <a routerLink="admin/companies">Manage Companies</a>
-    </ng-container>
-    <a routerLink="deliveries">My Deliveries</a>
-
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item>Settings</button>
-      <button mat-menu-item>Help</button>
-    </mat-menu>
-
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
+    <!--    <button mat-icon-button [matMenuTriggerFor]="appMenu">-->
+    <!--      <mat-icon>more_vert</mat-icon>-->
+    <!--    </button>-->
   </div>
+
+
+  <button *ngIf="!loggedIn" (click)="login()" class="loginButton" mat-raised-button color="primary">Login</button>
 </mat-toolbar>
 
+<!--isAdmin {{isAdmin}}-->
+<!--isCompany {{isCompany}}-->
 <div class="content">
   <router-outlet></router-outlet>
 </div>

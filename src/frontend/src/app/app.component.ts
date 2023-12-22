@@ -7,11 +7,11 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {CommonModule, NgIf} from "@angular/common";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatInputModule} from "@angular/material/input";
 
 
 @Component({
@@ -26,14 +26,19 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatIconModule,
     MatToolbarModule,
     NgIf,
-    ClipboardModule
+    ClipboardModule,
+    MatInputModule
   ],
   providers: [ClearOriginService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+  title = 'ClearOrigin';
+
+  public loggedIn: boolean = false;
+  public isCompany: boolean = false;
+  public isAdmin: boolean = false;
 
 
   public constructor(private httpClient: HttpClient,
@@ -44,6 +49,26 @@ export class AppComponent implements OnInit {
     console.log(
       'our contract address: ', environment.contractAddress
     )
+
+    this.clearOriginService.accountStatusSource.subscribe(x => {
+      if (x.length > 0) {
+        this.loggedIn = true;
+
+        this.clearOriginService.getCompany(x[0]).then(c => {
+          this.isCompany = true;
+        });
+
+        const admins = this.clearOriginService.getAdmins().then(a => {
+          if (a.includes(x[0])) {
+            this.isAdmin = true;
+          }
+          console.log('admins', a);
+        });
+
+
+      }
+      console.log('new accounts', x)
+    })
   }
 
   public get contractAddress() {
@@ -51,24 +76,24 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get('/assets/abis/_app_contracts_ClearOriginNetwork_sol_ClearOriginNetwork.abi').subscribe(x => {
-      console.log(x);
-    })
+
   }
 
   public getAdmins() {
-    this.clearOriginService.getAdmins().then(x => {
-      console.log(x)
-    })
+
   }
 
 
   public copyContractAddressToClipBoard() {
     this.clipboard.copy(environment.contractAddress);
     this._snackBar.open("Successfully copied smart contract address to clipboard",
-      '',{
+      '', {
         duration: 1000
       })
+  }
+
+  login() {
+    this.clearOriginService.connectAccount();
   }
 }
 

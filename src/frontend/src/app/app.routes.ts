@@ -6,8 +6,10 @@ import {AddCompanyComponent} from "./add-company/add-company.component";
 import {DeliveriesComponent} from "./deliveries/deliveries.component";
 import {DeliverieTrackerComponent} from "./deliverie-tracker/deliverie-tracker.component";
 import {DeliverieTrackerDetailComponent} from "./deliverie-tracker-detail/deliverie-tracker-detail.component";
+import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'delivery-tracker', component: DeliverieTrackerComponent},
   {path: 'delivery-tracker/:id', component: DeliverieTrackerDetailComponent},
   {path: 'create-delivery', component: CreateDeliveryComponent},

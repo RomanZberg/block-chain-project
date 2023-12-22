@@ -5,6 +5,7 @@ import {ResponseError} from "web3";
 import {Company} from "../interfaces/Company";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
+import {Delivery} from "../interfaces/Delivery";
 
 interface HistoryEntry {
   companyName: string;
@@ -28,6 +29,8 @@ export class DeliverieTrackerDetailComponent implements OnInit {
 
   public history: HistoryEntry[] = [];
 
+  public delivery: Delivery | null = null;
+
   constructor(
     private router: Router,
     private aciveroute: ActivatedRoute,
@@ -39,6 +42,11 @@ export class DeliverieTrackerDetailComponent implements OnInit {
     this.aciveroute.params.subscribe(x => {
       this.deliveryId = x['id'];
       this.generateHistory();
+
+      this.clearOriginService.getDelivery(parseInt(x['id'])).then(d => {
+        this.delivery = d;
+        console.log(this.delivery);
+      })
     });
   }
 
