@@ -50,6 +50,13 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         companyAddresses.push(_companyAddress);
     }
 
+    function getCompany(address companyAddress) public view returns (bytes32, bytes32[] memory){
+        require(companies[companyAddress].isValue == true, 'No Company with the requested wallet address');
+
+        Company memory company = companies[companyAddress];
+        return (company.companyName, company.products);
+    }
+
 
     function getCompanies() public view returns (bytes32[] memory, address[] memory, bytes32[][] memory)
     {
