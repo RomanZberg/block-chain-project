@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/app/contracts/ClearOriginNetwork.sol": {
-      "lastModificationDate": 1703240501577,
-      "contentHash": "79d74e997f96a95779c780389e9a03b3",
+      "lastModificationDate": 1703267335909,
+      "contentHash": "82820adaa15ec2d51e7b655145b588e6",
       "sourceName": "contracts/ClearOriginNetwork.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -31,7 +31,6 @@
       },
       "imports": [
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
         "@openzeppelin/contracts/access/AccessControl.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol"
@@ -724,83 +723,6 @@
         "^0.8.20"
       ],
       "artifacts": []
-    },
-    "/app/contracts/Lock.sol": {
-      "lastModificationDate": 1702645267635,
-      "contentHash": "ae66265769cc28ebdaa34881df95bc5e",
-      "sourceName": "contracts/Lock.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.9"
-      ],
-      "artifacts": [
-        "Lock"
-      ]
-    },
-    "/app/contracts/LucaContract.sol": {
-      "lastModificationDate": 1703156686914,
-      "contentHash": "c2d6267f1a99d0307e9959b4607e24f9",
-      "sourceName": "contracts/LucaContract.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        "@openzeppelin/contracts/access/AccessControl.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "MyToken"
-      ]
     },
     "/app/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
       "lastModificationDate": 1702893071423,

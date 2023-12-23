@@ -2,12 +2,11 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessControl, ERC721Enumerable {
+contract ClearOriginNetwork is ERC721,  ERC721Burnable, AccessControl, ERC721Enumerable {
     bytes32 public constant COMPANY_ROLE = keccak256("COMPANY_ROLE");
     uint256 private _nextTokenId;
 
@@ -191,19 +190,10 @@ contract ClearOriginNetwork is ERC721, ERC721URIStorage, ERC721Burnable, AccessC
         super._increaseBalance(account, value);
     }
 
-    function tokenURI(uint256 tokenId)
-    public
-    view
-    override(ERC721, ERC721URIStorage)
-    returns (string memory)
-    {
-        return super.tokenURI(tokenId);
-    }
-
     function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl)
+    override(ERC721, ERC721Enumerable, AccessControl)
     returns (bool)
     {
         return super.supportsInterface(interfaceId);
